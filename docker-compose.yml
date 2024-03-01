@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  ionos-dyndns:
+    build: .
+    container_name: ionos-dyndns
+    environment:
+      - UPDATE_INTERVAL=2
+      - SETTINGS_FILENAME=settings.txt
+    volumes:
+      - ./config:/config
+    network_mode: "host"
+    user: 1000:1000
