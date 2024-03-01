@@ -9,7 +9,9 @@ https://github.com/Domain-Connect/DomainConnectDDNS-Python
 To use the docker container, you have two options.
 
 1. You can use your existing `settings.txt` file by putting it into the `./config` folder and then starting up your container.
-1. You can just start the container and add you new domains manually by following the instructions below.
+1. You can just start the container and add your new domains manually by following the instructions below.
+
+To start the container just use `docker-compose up -d` in the root of this repository and it will build and spin rigth up.
 
 
 ## Working with domains

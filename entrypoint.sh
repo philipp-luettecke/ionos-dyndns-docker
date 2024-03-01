@@ -10,8 +10,8 @@ export SETTINGS_PATH=/config/$FILENAME_SETTINGS
 if [[ -f $SETTINGS_PATH ]]; then
     echo "Using $SETTINGS_PATH"
 else
-    echo "Settings file $SETTINGS_PATH is not found. Exiting."
-    exit 1
+    echo "Settings file $SETTINGS_PATH is not found. Creating settings.txt file."
+    touch $SETTINGS_PATH
 fi
 
 echo "Everything seems to be fine now; I will update all configured domains every $UPDATE_INTERVAL minutes"
