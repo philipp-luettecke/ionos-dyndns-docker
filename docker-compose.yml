@@ -1,14 +1,16 @@
 version: "3"
-
 services:
   ionos-dyndns:
     build: .
     container_name: ionos-dyndns
     restart: unless-stopped
     environment:
-      - UPDATE_INTERVAL=2
+      - UPDATE_INTERVAL=15
       - SETTINGS_FILENAME=settings.txt
     volumes:
       - ./config:/config
-    network_mode: "host"
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    network_mode: host
     user: 1000:1000
+networks: {}
