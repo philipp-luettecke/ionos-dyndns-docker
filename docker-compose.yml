@@ -1,4 +1,3 @@
-version: "3"
 services:
   ionos-dyndns:
     build: .
@@ -6,7 +5,8 @@ services:
     restart: unless-stopped
     environment:
       - UPDATE_INTERVAL=15
-      - SETTINGS_FILENAME=settings.txt
+      - FILENAME_SETTINGS=settings.txt
+      - TZ=Europe/Berlin
     volumes:
       - ./config:/config
       - /etc/localtime:/etc/localtime:ro
