@@ -1,11 +1,10 @@
 services:
   ionos-dyndns:
-    build: .
+    image: philippluettecke/ionos-dyndns:latest
     container_name: ionos-dyndns
     restart: unless-stopped
     environment:
-      - UPDATE_INTERVAL=15
-      - FILENAME_SETTINGS=settings.txt
+      - CRON_SCHEDULE=*/15 * * * *
       - TZ=Europe/Berlin
     volumes:
       - ./config:/config

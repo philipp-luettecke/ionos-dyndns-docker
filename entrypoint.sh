@@ -8,25 +8,33 @@ log() {
     echo "$timestamp [$log_level] [$script_name] $message" | tee -a $LOGFILE
 }
 
-if [[ -z "${FILENAME_SETTINGS}" ]]; then
-    FILENAME_SETTINGS=settings.txt
-    log "INFO" "No FILENAME_SETTINGS provided. Using default."
-fi
-
-export SETTINGS_PATH=/config/$FILENAME_SETTINGS
+export SETTINGS_PATH=/config/domains.txt
 
 if [[ -f $SETTINGS_PATH ]]; then
     log "INFO" "Using $SETTINGS_PATH"
 else
-    log "WARN" "Settings file $SETTINGS_PATH is not found. Creating settings.txt file."
+    log "WARN" "Settings file $SETTINGS_PATH is not found. Creating empty file."
     touch $SETTINGS_PATH
 fi
 
-log "INFO" "Everything seems to be fine now; I will update all configured domains every $UPDATE_INTERVAL minutes"
+if [[ -z "${CRON_SCHEDULE}" ]]; then
+    CRON_SCHEDULE="*/15 * * * *"
+    log "INFO" "No CRON_SCHEDULE provided. Using default: $CRON_SCHEDULE"
+fi
 
-while true
-do 
-    log "INFO" "Updating all configured DynDNS domains"
-    domain-connect-dyndns update --all --config $SETTINGS_PATH
-    sleep $(($UPDATE_INTERVAL*60))
-done
+CRON_FILE=/tmp/crontab
+echo "$CRON_SCHEDULE domain-connect-dyndns update --all --config $SETTINGS_PATH" > $CRON_FILE
+
+# Validate the cron expression up front
+if ! supercronic -test $CRON_FILE; then
+    log "ERROR" "Invalid CRON_SCHEDULE: '$CRON_SCHEDULE'"
+    exit 1
+fi
+
+log "INFO" "Everything seems to be fine now; I will update all configured domains with schedule '$CRON_SCHEDULE' (TZ=${TZ:-UTC})"
+
+# Update once right at startup, then continue on the cron schedule
+log "INFO" "Updating all configured DynDNS domains"
+domain-connect-dyndns update --all --config $SETTINGS_PATH
+
+exec supercronic $CRON_FILE
