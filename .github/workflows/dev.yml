@@ -1,9 +1,15 @@
 name: Build and push dev Docker image
 
-# Runs on every push to main and overwrites the rolling "dev" tag
+# Runs on every push to main and overwrites the rolling "dev" tag,
+# except for changes that do not affect the image (docs, CI config)
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '.github/**'
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
   workflow_dispatch:
 
 env:

@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Release v1.2.3 -> tags 1.2.3, 1.2 and latest
+      # Release v1.2.3 -> tags 1.2.3, 1.2, 1 and latest
       - name: Generate image tags
         id: meta
         uses: docker/metadata-action@v5
@@ -36,6 +36,7 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
             type=raw,value=latest
 
       - name: Build and push
