@@ -6,6 +6,21 @@ Home internet connections usually get a new public IP address from time to time.
 
 It is a small Docker wrapper around the Python tool [Domain Connect Dyndns](https://github.com/Domain-Connect/DomainConnectDDNS-Python).
 
+- **Source code, issues and releases:** https://github.com/philipp-luettecke/ionos-dyndns-docker
+- **Supported architectures:** `linux/amd64`, `linux/arm64` (e.g. Raspberry Pi 4/5)
+
+## Image tags
+
+| Tag | Description |
+| --- | --- |
+| `latest` | Newest stable release |
+| `1` | Newest release of major version 1 (no breaking changes) |
+| `1.2` | Newest patch release of version 1.2 |
+| `1.2.3` | Exact release, never changes |
+| `dev` | Latest development build from the `main` branch, may be unstable |
+
+For automatic updates without surprises use `1`. For fully reproducible setups pin an exact version like `1.2.3`.
+
 ## What you need
 
 - A computer or server that is always on (e.g. a Raspberry Pi, NAS or home server)
@@ -42,7 +57,7 @@ It is a small Docker wrapper around the Python tool [Domain Connect Dyndns](http
    ```console
    docker compose up -d
    ```
-5. **Add your domain** (see [Adding a domain](#adding-a-domain) below).
+5. **Add your domain** (see the section "Adding a domain" below).
 
 That's it. From now on the container updates your domains automatically and restarts itself after a reboot.
 
@@ -129,7 +144,7 @@ docker compose up -d
 - **Container keeps restarting:** run `docker logs ionos-dyndns`. Most often `CRON_SCHEDULE` is invalid or `./config` is not writable for the configured `user`.
 - **"Permission denied" on `domains.txt`:** the folder `./config` must be writable by the user in `user:`. Fix with `sudo chown -R 1000:1000 config`.
 - **Wrong update times:** check that `TZ` is set to your time zone.
-- **IONOS login expired:** repeat the [setup step](#adding-a-domain) for the domain.
+- **IONOS login expired:** repeat the setup step (see "Adding a domain") for the domain.
 
 ## Security note
 
