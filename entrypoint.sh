@@ -8,7 +8,7 @@ log() {
     echo "$timestamp [$log_level] [$script_name] $message" | tee -a $LOGFILE
 }
 
-export SETTINGS_PATH=/config/domains.txt
+export SETTINGS_PATH=/config/settings.txt
 
 if [[ -f $SETTINGS_PATH ]]; then
     log "INFO" "Using $SETTINGS_PATH"

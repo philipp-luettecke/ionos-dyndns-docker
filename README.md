@@ -69,9 +69,9 @@ Run this once per domain, and replace `<DOMAIN>` with your domain, e.g. `home.ex
 docker exec -it ionos-dyndns domain-connect-dyndns setup --domain <DOMAIN>
 ```
 
-The tool prints a link. Open it in your browser, log in to IONOS and confirm the access. Afterwards paste the requested code back into the terminal if asked. The result is saved in `./config/domains.txt`.
+The tool prints a link. Open it in your browser, log in to IONOS and confirm the access. Afterwards paste the requested code back into the terminal if asked. The result is saved in `./config/settings.txt`.
 
-> Already have a settings file from the Domain Connect Dyndns tool? Rename it to `domains.txt` and put it into the `config` folder before starting the container, then no setup is needed.
+> Already have a settings file from the Domain Connect Dyndns tool? Put it, named `settings.txt`, into the `config` folder before starting the container, then no setup is needed.
 
 ## Settings
 
@@ -142,13 +142,13 @@ docker compose up -d
 ## Troubleshooting
 
 - **Container keeps restarting:** run `docker logs ionos-dyndns`. Most often `CRON_SCHEDULE` is invalid or `./config` is not writable for the configured `user`.
-- **"Permission denied" on `domains.txt`:** the folder `./config` must be writable by the user in `user:`. Fix with `sudo chown -R 1000:1000 config`.
+- **"Permission denied" on `settings.txt`:** the folder `./config` must be writable by the user in `user:`. Fix with `sudo chown -R 1000:1000 config`.
 - **Wrong update times:** check that `TZ` is set to your time zone.
 - **IONOS login expired:** repeat the setup step (see "Adding a domain") for the domain.
 
 ## Security note
 
-`config/domains.txt` contains access tokens for your IONOS account. Keep it private and never commit or share it. This repository ignores the `config/` folder by default.
+`config/settings.txt` contains access tokens for your IONOS account. Keep it private and never commit or share it. This repository ignores the `config/` folder by default.
 
 ## Building the image yourself
 
